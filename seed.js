@@ -40,14 +40,20 @@ var seedUsers = function () {
 
 };
 
+var dropDatabase = function () {
+    return new Promise(function(resolve, reject) {
+        mongoose.connection.db.dropDatabase(function(err, result) {
+            if (err) reject(err);
+            else {
+                resolve(result);
+            }
+        });
+    });
+};
+
 connectToDb.then(function () {
-    User.findAsync({}).then(function (users) {
-        if (users.length === 0) {
-            return seedUsers();
-        } else {
-            console.log(chalk.magenta('Seems to already be user data, exiting!'));
-            process.kill(0);
-        }
+    dropDatabase().then(function(){
+        return seedUsers();
     }).then(function () {
         console.log(chalk.green('Seed successful!'));
         process.kill(0);
