@@ -18,7 +18,7 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state, User) {
     $scope.sendLogin = function (loginInfo) {
         $scope.error = null;
         AuthService.login(loginInfo).then(function () {
-            $state.go('userHistory');
+            $state.go('favorites');
         }).catch(function () {
             $scope.error = 'Invalid login credentials.';
         });
@@ -30,7 +30,7 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state, User) {
         User.create(signupData)
         .then(function(){
             AuthService.getLoggedInUser().then(function(user){
-                if (user) $state.go('userHistory');
+                if (user) $state.go('favorites');
             });
         }).catch(() => {
             $scope.error = 'Email already exists.'
