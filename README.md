@@ -21,6 +21,7 @@ This project uses the MEAN stack to create a web scraper for ETF's and then disp
 
 ##Future Implementations
 
+0.5 I need to go through my code and make it DRY and document a lot better.
 1. I want to make the country breakdown into a D3.js world heat map. It's easy to use a third party to accomplish this, but I'd like to try on my own.
 2. Implement services to handle data across states.
 3. Make it so that you can delete a single favorited fund. Easy implementation, but would like to handle the services first to see where the data falls.
