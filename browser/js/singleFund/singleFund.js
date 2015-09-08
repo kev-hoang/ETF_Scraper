@@ -82,6 +82,8 @@ function SingleFundController($scope, $stateParams, ETF, AuthService, Favs){
     })
 
     $scope.addFav = (userid, ticker) => {
-        Favs.add(userid, ticker)
+        Favs.add(userid, ticker).then(()=>{
+            alert(ticker + ' has been added to your favorites.')
+        })
     }
 }
