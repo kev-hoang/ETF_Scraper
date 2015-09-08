@@ -1,0 +1,10 @@
+<loader ng-if="!ready"> </loader>
+	<div ng-if="ready">
+	<h1 style="border-bottom: 1px solid black">My Favorites!</h1>
+	<button style="float:right; clear:both; margin-left:50px"class='danger' ng-click="clearFavs(user)">Clear All Favorites</button>
+	<div style="float:left; margin-right:50px" ng-repeat="fav in favorites">
+		<a ui-sref="singleFund({ticker: fav})">
+			<button>{{fav}}</button>
+		</a>
+	</div>
+</div>

@@ -4,26 +4,50 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
     email: {
-        type: String
+        type: String,
+        required: true
     },
     password: {
-        type: String
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    username: {
+        type: String,
+        required: true        
     },
     salt: {
         type: String
     },
-    twitter: {
-        id: String,
-        username: String,
-        token: String,
-        tokenSecret: String
+    history:{
+        type: [{
+            ticker: {
+                type: String
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            }
+        }]
     },
-    facebook: {
-        id: String
-    },
-    google: {
-        id: String
+    favorites:{
+        type: [String]
     }
+    // twitter: {
+    //     id: String,
+    //     username: String,
+    //     token: String,
+    //     tokenSecret: String
+    // },
+    // facebook: {
+    //     id: String
+    // },
+    // google: {
+    //     id: String
+    // }
 });
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations

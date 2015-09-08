@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <base href="/" />
-    <title>Fullstack Academy Generated Application</title>
+    <title>ETF Scraper</title>
     <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <script src="/lodash/index.js"></script>
@@ -11,10 +11,12 @@
     <script src="/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="/socket.io-client/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
     <script src="/main.js"></script>
 </head>
-<body ng-app="FullstackGeneratedApp">
+<body ng-app="ETF_Scraper">
     <navbar></navbar>
     <div id="main" ui-view></div>
+    <etf-footer></etf-footer>
 </body>
 </html>

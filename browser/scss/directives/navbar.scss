@@ -1,9 +1,9 @@
 navbar {
 
   display: block;
-  background: white;
-  border-bottom: 1px solid black;
-  box-shadow: 1px 1px 14px -3px black;
+  background: #0B0E26;
+  border-bottom: 1px solid #E9F0FA;
+  box-shadow: 1px 1px 14px -3px #E9F0FA;
 
   .container {
     width: 91%;
@@ -18,7 +18,7 @@ navbar {
   }
 
   a {
-    color: black;
+    color: #E9F0FA;
     font-size: 16px;
   }
 
@@ -39,10 +39,14 @@ navbar {
 
   .login-button {
     float: right;
-    border: 1px solid black;
-    margin-top: 10px;
+    border: 1px solid #E9F0FA;
+    margin-top: 6px;
     background: none;
     outline: none !important;
+    color: darken(#f31214, 10%);
+    &:hover {
+      color: #f31214;
+    }
   }
 
   .welcome {
@@ -55,6 +59,13 @@ navbar {
       color: #f30046;
       cursor: pointer;
     }
+  }
+
+  .navSearch {
+    float: right;
+    width: 10vw;
+    margin-top: 6px;
+    margin-right: 20px;
   }
 
 }

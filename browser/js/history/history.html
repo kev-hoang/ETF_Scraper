@@ -1,0 +1,21 @@
+<loader ng-if="!ready"></loader>
+<div ng-if="ready">
+	<h1 style="border-bottom: 1px solid black;">Your Recent Searches</h1>
+	<button class='danger' ng-click="clearHistory(user)">Clear History</button>
+	<table class='table'>
+		<tbody>
+			<tr>
+				<th style="border: 1px solid black">Date</th>
+				<th style="border: 1px solid black">Ticker</th>
+				<th style="border: 1px solid black">Fund</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr ng-repeat="row in history.slice().reverse() track by $index">
+				<td ng-repeat="item in row track by $index">
+					{{item}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,4 +1,13 @@
-<section id="home">
-    <fullstack-logo></fullstack-logo>
-    <rando-greeting></rando-greeting>
+<section id="home" ng-controller="HomeController">
+	<div ng-if="!isLoggedIn()">
+    	<h1>Welcome! Please Sign In or Sign Up!</h1>
+    	<button style="background-color:#0BD426; color:white; font-size: 30px" ui-sref="login" class="btn">Login/Signup</button>
+    </div>
+	<loader ng-if="isLoggedIn() && !ready"></loader>
+    <div ng-if="isLoggedIn() && ready" style="margin-bottom: 200px">
+	    <h1 style="border-bottom: 1px solid black">Search Now by ETF Name or Ticker</h1>
+	    <form ng-submit="search(searchFund)">
+	        <input type="text" ng-model="searchFund" typeahead="etf for etf in allETF | filter:$viewValue | limitTo:8" class="form-control" placeholder='Search Here'>
+	    </form> 
+	</div>
 </section>

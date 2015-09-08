@@ -1,7 +1,9 @@
 'use strict';
 var router = require('express').Router();
 module.exports = router;
-var _ = require('lodash');
+var _ = require("lodash");
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
 var ensureAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -11,22 +13,96 @@ var ensureAuthenticated = function (req, res, next) {
     }
 };
 
-router.get('/secret-stash', ensureAuthenticated, function (req, res) {
-
-    var theStash = [
-        'http://ep.yimg.com/ay/candy-crate/bulk-candy-store-2.gif',
-        'http://www.dailybunny.com/.a/6a00d8341bfd0953ef0148c793026c970c-pi',
-        'http://images.boomsbeat.com/data/images/full/44019/puppy-wink_1-jpg.jpg',
-        'http://p-fst1.pixstatic.com/51071384dbd0cb50dc00616b._w.540_h.610_s.fit_.jpg',
-        'http://childcarecenter.us/static/images/providers/2/89732/logo-sunshine.png',
-        'http://www.allgraphics123.com/ag/01/10683/10683.jpg',
-        'http://img.pandawhale.com/post-23576-aflac-dancing-duck-pigeons-vic-RU0j.gif',
-        'http://www.eveningnews24.co.uk/polopoly_fs/1.1960527.1362056030!/image/1301571176.jpg_gen/derivatives/landscape_630/1301571176.jpg',
-        'http://media.giphy.com/media/vCKC987OpQAco/giphy.gif',
-        'https://my.vetmatrixbase.com/clients/12679/images/cats-animals-grass-kittens--800x960.jpg',
-        'http://www.dailymobile.net/wp-content/uploads/2014/10/lollipops.jpg'
-    ];
-
-    res.send(_.shuffle(theStash));
+router.post('/signup', function (req, res, next) {
+    var {email} = req.body
+    User.findOne({email})
+    .then((user) => {
+        if(user){
+            var error = new Error('User Exists');
+            error.status = 401;
+            return next(error)
+        }else{
+            User.create(req.body)
+                .then((user) => {
+                    req.login(user, function () {
+                        res.status(201).json(_.omit(user.toJSON(), ['salt', 'password']));
+                    });
+                })
+                .then(null, next);
+        }
+    })
 
 });
+
+router.get('/history/:id', ensureAuthenticated, function(req, res, next){
+    User.findById(req.params.id)
+    .then((user) => {
+        if(user.history){
+            var history = user.history.map((e) => {
+                e.date = new Date(Date.parse(e.date)).toLocaleString();
+                return e
+            })
+            res.json(history)
+        }else{
+            res.json(user)
+        }
+    })
+})
+
+router.delete('/history/:id', ensureAuthenticated, function(req, res, next){
+    User.findById(req.params.id)
+    .then((user) => {
+        user.history.length = 0;
+        user.markModified('history')
+        user.save().then((user) => {
+            res.json(user)
+        })
+    })
+})
+
+router.post('/history', ensureAuthenticated, function(req, res){
+    var {id, ticker} = req.body
+    User.findById(id)
+    .then((user) => {
+        user.history.push({ticker})
+        user.save().then((user) => {
+            res.json(user)
+        })
+    })
+})
+
+router.get('/favorites/:id', ensureAuthenticated, function(req, res, next){
+    User.findById(req.params.id)
+    .then((user) => {
+        res.json(user.favorites)
+    })
+})
+
+router.delete('/favorites/:id', ensureAuthenticated, function(req, res, next){
+    User.findById(req.params.id)
+    .then((user) => {
+        user.favorites.length = 0;
+        user.markModified('favorites')
+        user.save().then((user) => {
+            res.json(user)
+        })
+    })
+})
+
+router.post('/favorites', ensureAuthenticated, function(req, res){
+    var {id, ticker} = req.body
+    ticker = ticker.toUpperCase();
+    User.findById(id)
+    .then((user) => {
+        if(user.favorites.indexOf(ticker) < 0){
+            user.favorites.push(ticker)
+            user.markModified('favorites')
+            user.save().then((user) => {
+                console.log(user)
+                res.json(user)
+            })
+        }else{
+            res.json(user)
+        }
+    })
+})

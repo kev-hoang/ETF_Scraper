@@ -1,0 +1,75 @@
+<loader ng-if="!ready"></loader>
+<div ng-if="ready">
+	<h1 style="border-bottom: 1px solid black">{{data.title}}<br><button style="font-size:12px" ng-click="addFav(user._id, ticker)">Add To Favorites</button></h1>
+
+	<div>
+		<h2 style="border-bottom: 1px solid black">Fund Information <p style="font-size:10px">{{data.fundInfo.asOf}}</p></h2>
+		<table id='fundInfo'>
+			<tbody>
+				<tr ng-repeat="fund in data.fundInfo.table">
+					<td ng-repeat="data in fund">
+						{{data}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+			<h2 style="float: right;" width='35vw'>All Downloadable Docs</h2>
+		<div id='docs' style="border-top: 1px solid black;">
+			<div ng-repeat="doc in data.docs">
+				<a href={{doc.link}}>{{doc.text}}</a>
+			</div>
+		</div>
+	</div>
+
+
+	<div style="clear:both">
+	<h1 style="border-bottom: 1px solid black">Holdings Info</h1>
+	<a ng-href="https://www.spdrs.com{{dl}}"><button style="font-size:16px" >Download All Holdings</button></a></div>
+	<div>
+		<h2 style="border-bottom: 1px solid black">Top Fund <p style="font-size:10px">{{fundAsOf}}</p></h2>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th style="border: 1px solid black">Name</th>
+					<th style="border: 1px solid black">Weight</th>
+					<th style="border: 1px solid black">Shares</th>
+				</tr>
+			</tbody>
+			<tbody>
+				<tr ng-repeat="fund in data.topFund.table">
+					<td ng-repeat="data in fund">
+						{{data}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<bar-chart data='topFund.data' labels='topFund.labels'></bar-chart>
+		<hr>
+		<pie-chart data='fundSector.data' labels='fundSector.labels' name="'Top Fund Sectors'"></pie-chart>
+	</div>
+	<div>
+		<h2 style="border-bottom: 1px solid black">Top Index <p style="font-size:10px">{{indexAsOf}}</p></h2>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th style="border: 1px solid black">Name</th>
+					<th style="border: 1px solid black">Weight</th>
+				</tr>
+			</tbody>
+			<tbody>
+				<tr ng-repeat="fund in data.topIndex.table">
+					<td ng-repeat="data in fund">
+						{{data}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<bar-chart data='topIndex.data' labels='topIndex.labels'></bar-chart>
+		<hr>
+		<pie-chart data='indexSector.data' labels='indexSector.labels' name="'Top Index Sectors'"></pie-chart>
+	</div>
+	<div ng-if="countryAsOf !== ''">
+		<h2 style="border-bottom: 1px solid black">Country Breakdown <p style="font-size:10px">{{countryAsOf}}</p></h2>
+		<pie-chart data='countryBreakdown.data' labels='countryBreakdown.labels' name="'Country Breakdown'"></pie-chart>
+	</div>
+</div>

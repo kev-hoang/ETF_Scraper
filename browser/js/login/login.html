@@ -1,9 +1,8 @@
+<alert type="danger" ng-show="error">
+    {{ error }}
+</alert>
 <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
-
-    <alert type="danger" ng-show="error">
-        {{ error }}
-    </alert>
-
+    <h1 style="border: 1px solid black">Login</h1>
     <div class="form-group">
         <label for="email">Email address</label>
         <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
@@ -11,6 +10,35 @@
     <div class="form-group">
         <label for="login-password">Password</label>
         <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<form id="signup-form" name="signupForm" ng-submit="signupForm.$valid && signup.password === pwdCheck && create(signup)">
+    <h1 style="border: 1px solid black">Sign Up</h1>
+    <h4>*All fields are required*</h4>
+    <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" ng-model="signup.name" class="form-control" id="name" placeholder="Enter Full Name" required>
+    </div>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" ng-model="signup.username" class="form-control" id="username" placeholder="Enter Username" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="text" ng-model="signup.email" class="form-control" id="email" placeholder="Enter email" required>
+    </div>
+    <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" ng-model="signup.password" class="form-control" id="signup-password" placeholder="Password" required>
+    </div>
+    <div class="form-group">
+        <label for="signup-passwordCheck">Re-Enter Password</label>
+        <input type="password" ng-model="pwdCheck" class="form-control" id="signup-passwordCheck" placeholder="Re-Enter Password" required>
+    </div>
+    <div ng-show="signup.password !== pwdCheck">
+        Passwords don't match!
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
 </form>

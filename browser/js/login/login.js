@@ -8,21 +8,41 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('LoginCtrl', function ($scope, AuthService, $state) {
+app.controller('LoginCtrl', function ($scope, AuthService, $state, User) {
 
     $scope.login = {};
     $scope.error = null;
+    $scope.signup = {};
+    $scope.pwdCheck = undefined;
 
     $scope.sendLogin = function (loginInfo) {
-
         $scope.error = null;
-
         AuthService.login(loginInfo).then(function () {
-            $state.go('home');
+            $state.go('userHistory');
         }).catch(function () {
             $scope.error = 'Invalid login credentials.';
         });
 
     };
 
+
+    $scope.create = function(signupData) {
+        User.create(signupData)
+        .then(function(){
+            AuthService.getLoggedInUser().then(function(user){
+                if (user) $state.go('userHistory');
+            });
+        }).catch(() => {
+            $scope.error = 'Email already exists.'
+        });
+    };
+
 });
+
+app.factory('User', function($http){
+    return{
+        create: function(data){
+            return $http.post('/api/members/signup', data).then((response) => response.data);
+        }
+    }
+})
